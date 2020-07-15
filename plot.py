@@ -20,21 +20,16 @@ def samples(images, labels=None, shape=[1, 1], cmap="gray", ticks=False, figsize
     plt.tight_layout()
     return plt
 
-def evaluate(*args, labels):
-    n = len(args)
-    
-    for i in range(n):
-        metric = args[i]
-        label = labels[i]
-        metric_label = label[0].split(" ")[-1]
-        epochs = range(1, len(metric[0]) + 1)
-
-        plt.subplot(1, n, i+1)
-        plt.plot(epochs, metric[0], label=label[0])
-        plt.plot(epochs, metric[1], label=label[1])
-        plt.title(' & '.join(label))
-        plt.xlabel('Epochs')
-        plt.ylabel(metric_label)
-        plt.legend()
-        
+def metrics(metric, metric2=None, label='loss'):
+    epochs = range(1, len(metric)+1)
+    plt.plot(epochs, metric, label='Training ' + label)
+    plt.title('Training ' + label)
+    if metric2 is not None:
+        plt.title('Training & validation ' + label)
+        plt.plot(epochs, metric2, label='Validation ' + label)
+    plt.xlabel('Epochs')
+    plt.ylabel(label)
+    plt.legend()
     return plt
+
+
